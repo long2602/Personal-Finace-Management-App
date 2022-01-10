@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "72473006608",
+    "project_id": "lodaapp-284fa",
+    "storage_bucket": "lodaapp-284fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72473006608:android:5b1a7861e04fae04127095",
+        "android_client_info": {
+          "package_name": "com.example.loda_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72473006608-76v2sa855do9th1i8ba65p0h359ddsj9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7BCoUPLeHNTBpqOTJ_FgR2OzK3rFnitg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72473006608-76v2sa855do9th1i8ba65p0h359ddsj9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "72473006608-g0vproavm24rmgq2ufdhuqnps9his1go.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.lodaApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
