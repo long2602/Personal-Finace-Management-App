@@ -11,7 +11,7 @@ import 'package:loda_app/src/constants/app_ui.dart';
 import 'package:loda_app/src/repositories/category_repository.dart';
 import 'package:loda_app/src/repositories/user_repository.dart';
 import 'package:loda_app/src/screens/addBudgetScreen/addBudgetPage.dart';
-import 'package:loda_app/src/screens/budgetScreen/EditBudgetPage.dart';
+import 'package:loda_app/src/screens/budgetScreen/testBudgetPage.dart';
 import 'package:loda_app/src/widgets/OptionContain_widget.dart';
 
 class BudgetTab extends StatefulWidget {
@@ -137,7 +137,7 @@ class _BudgetTabState extends State<BudgetTab> {
                               onTap: () {
                                 Navigator.of(context)
                                     .push(MaterialPageRoute(builder: (context) {
-                                  return EditBudgetPage(
+                                  return TestBudget(
                                     userRepository: _userRepository,
                                     budget: storedocs[index],
                                     categoryRepository: _categoryRepository,

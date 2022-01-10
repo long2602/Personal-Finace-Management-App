@@ -10,7 +10,7 @@ import 'package:loda_app/src/constants/app_style.dart';
 import 'package:loda_app/src/models/user.dart';
 import 'package:loda_app/src/repositories/category_repository.dart';
 import 'package:loda_app/src/repositories/user_repository.dart';
-import 'package:loda_app/src/screens/budgetScreen/EditBudgetPage.dart';
+import 'package:loda_app/src/screens/budgetScreen/testBudgetPage.dart';
 import 'package:loda_app/src/screens/transactionScreen/historyTransaction/historyTransactionPage.dart';
 import 'package:loda_app/src/screens/walletScreen/tab/budgetTab.dart';
 import 'package:loda_app/src/screens/walletScreen/tab/walletTab.dart';
@@ -382,6 +382,7 @@ class _WalletPageState extends State<WalletPage>
                       itemBuilder: (context, index) {
                         Map storedocs = _resultsBudgetList[index].data()
                             as Map<String, dynamic>;
+                        storedocs['id'] = _resultsBudgetList[index].id;
                         storedocs['nameWallet'] = _wallet['name'];
                         storedocs['imgWallet'] = _wallet['img'];
                         _categories.forEach((element) {
@@ -397,9 +398,9 @@ class _WalletPageState extends State<WalletPage>
                             onTap: () {
                               Navigator.of(context)
                                   .push(MaterialPageRoute(builder: (context) {
-                                return EditBudgetPage(
+                                return TestBudget(
                                   userRepository: _userRepository,
-                                  budget: storedocs['id'],
+                                  budget: storedocs,
                                   categoryRepository: _categoryRepository,
                                 );
                               }));

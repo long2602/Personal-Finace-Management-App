@@ -9,7 +9,6 @@ import 'package:loda_app/src/events/register_event.dart';
 import 'package:loda_app/src/repositories/user_repository.dart';
 import 'package:loda_app/src/states/register_state.dart';
 import 'package:loda_app/src/validators/validators.dart';
-import 'package:loda_app/src/widgets/Input_widget.dart';
 import 'package:loda_app/src/widgets/buttons/loginRegisterBtn.dart';
 import 'package:loda_app/src/widgets/snackBar.dart';
 

@@ -12,12 +12,12 @@ import 'package:loda_app/src/widgets/OptionContain_widget.dart';
 import 'package:loda_app/src/widgets/buttons/appBarBtn.dart';
 import 'package:loda_app/src/widgets/generalAppbar.dart';
 
-class EditBudgetPage extends StatefulWidget {
+class TestBudget extends StatefulWidget {
   final Map _budget;
   final UserRepository _userRepository;
   final CategoryRepository _categoryRepository;
 
-  const EditBudgetPage({
+  const TestBudget({
     Key? key,
     required UserRepository userRepository,
     required Map budget,
@@ -28,10 +28,10 @@ class EditBudgetPage extends StatefulWidget {
         super(key: key);
 
   @override
-  _EditBudgetPageState createState() => _EditBudgetPageState();
+  _TestBudgetState createState() => _TestBudgetState();
 }
 
-class _EditBudgetPageState extends State<EditBudgetPage> {
+class _TestBudgetState extends State<TestBudget> {
   Map get _budget => widget._budget;
   UserRepository get _userRepository => widget._userRepository;
   CategoryRepository get _categoryRepository => widget._categoryRepository;
@@ -99,14 +99,7 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: AppStyle.mainPadding),
         child: FutureBuilder(
-            future: Future.wait([
-              _userRepository.getTransactionsByRangeBudget(
-                  _budget['idWallet'],
-                  (_budget['startDay'] as Timestamp).toDate(),
-                  (_budget['endDay'] as Timestamp).toDate(),
-                  _budget['idCategory']),
-              _userRepository.getListBudgetById(_budget['id']),
-            ]),
+            future: _userRepository.getListBudgetById(_budget['id']),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -114,24 +107,26 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  List result = snapshot.data as List;
-                  final data1 = result[0] as QuerySnapshot;
-                  final data2 = result[1] as DocumentSnapshot;
-                  final List storedocs = [];
-                  data1.docs.map((DocumentSnapshot document) {
-                    Map a = document.data() as Map<String, dynamic>;
-                    if (a['idCategory'] == _budget['idCategory']) {
-                      storedocs.add(a);
-                      a['id'] = document.id;
-                      _categories.forEach((element) {
-                        if (element['id'] == a['idCategory']) {
-                          a['imgCategory'] = element['img'];
-                          a['nameCategory'] = element['name'];
-                        }
-                      });
-                    }
-                  }).toList();
-                  data2.data() as Map<String, dynamic>;
+                  // List result = snapshot.data as List;
+                  // final data1 = result[0] as QuerySnapshot;
+                  // final data2 = result[1] as DocumentSnapshot;
+                  // final List storedocs = [];
+                  // data1.docs.map((DocumentSnapshot document) {
+                  //   Map a = document.data() as Map<String, dynamic>;
+                  //   if (a['idCategory'] == _budget['idCategory']) {
+                  //     storedocs.add(a);
+                  //     a['id'] = document.id;
+                  //     _categories.forEach((element) {
+                  //       if (element['id'] == a['idCategory']) {
+                  //         a['imgCategory'] = element['img'];
+                  //         a['nameCategory'] = element['name'];
+                  //       }
+                  //     });
+                  //   }
+                  // }).toList();
+                  // data2.data() as Map<String, dynamic>;
+                  final a = snapshot.data as DocumentSnapshot;
+                  final budget = a.data() as Map<String, dynamic>;
                   return Column(
                     children: [
                       OptionContainer(
@@ -145,7 +140,7 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                               style: TextStyle(fontSize: 18.sp),
                             ),
                             Text(
-                              '${AppStyle.moneyFormat.format(_budget['balance'])} ${_budget['currency']}',
+                              '${AppStyle.moneyFormat.format(budget['balance'])} ${budget['currency']}',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18.sp),
                             ),
@@ -161,11 +156,11 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 AutoSizeText(
-                                  "${_getDate((_budget['startDay'] as Timestamp).toDate())} - ${_getDate((_budget['endDay'] as Timestamp).toDate())}",
+                                  "${_getDate((budget['startDay'] as Timestamp).toDate())} - ${_getDate((budget['endDay'] as Timestamp).toDate())}",
                                   maxLines: 1,
                                 ),
                                 AutoSizeText(
-                                  '${AppStyle.moneyFormat.format(_budget['balance'])} ${_budget['currency']}',
+                                  '${AppStyle.moneyFormat.format(budget['balance'])} ${budget['currency']}',
                                   style: TextStyle(fontSize: 18.sp),
                                   maxLines: 1,
                                 ),
@@ -174,7 +169,7 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 20),
                               child: LinearProgressIndicator(
-                                value: _budget['remain'] / _budget['balance'],
+                                value: budget['remain'] / budget['balance'],
                                 color: AppStyle.blueColor,
                                 minHeight: 14,
                               ),
@@ -183,11 +178,11 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 AutoSizeText(
-                                  "${_getDayLeft(_budget['endDay'])} days left",
+                                  "${_getDayLeft(budget['endDay'])} days left",
                                   maxLines: 1,
                                 ),
                                 AutoSizeText(
-                                  '${AppStyle.moneyFormat.format(_budget['balance'] - _budget['remain'])} ${_budget['currency']}',
+                                  '${AppStyle.moneyFormat.format(budget['balance'] - budget['remain'])} ${budget['currency']}',
                                   style: TextStyle(fontSize: 18.sp),
                                   maxLines: 1,
                                 ),
@@ -197,7 +192,7 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                         ),
                       ),
                       Visibility(
-                        visible: storedocs.isEmpty ? false : true,
+                        visible: budget['remain'] == 0 ? false : true,
                         child: OptionContainer(
                           width: double.infinity,
                           margin: EdgeInsets.only(bottom: 16),
@@ -208,8 +203,9 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => DetailBudgetPage(
-                                        transaction: storedocs,
-                                        total: _budget['remain'],
+                                        userRepository: _userRepository,
+                                        categoryRepository: _categoryRepository,
+                                        budget: _budget,
                                       )));
                             },
                           ),
@@ -230,7 +226,7 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                                       maxLines: 1,
                                     ),
                                     AutoSizeText(
-                                      '${AppStyle.moneyFormat.format((_budget['remain']) / (_getNumDay(_budget['startDay']) + 1))} ${_budget['currency']} /day',
+                                      '${AppStyle.moneyFormat.format((budget['remain']) / (_getNumDay(budget['startDay']) + 1))} ${budget['currency']} /day',
                                       maxLines: 1,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),
@@ -245,7 +241,7 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                                       maxLines: 1,
                                     ),
                                     AutoSizeText(
-                                      '${AppStyle.moneyFormat.format((_budget['balance'] - _budget['remain']) / _getDayLeft(_budget['endDay']))} ${_budget['currency']} /day',
+                                      '${AppStyle.moneyFormat.format((budget['balance'] - budget['remain']) / _getDayLeft(budget['endDay']))} ${budget['currency']} /day',
                                       maxLines: 1,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),
@@ -264,7 +260,7 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: AutoSizeText(
-                                    '${AppStyle.moneyFormat.format(_budget['remain'] + (_getDayLeft(_budget['endDay']) * (_budget['remain']) / (1 + _getNumDay(_budget['startDay']))))} ${_budget['currency']} /day',
+                                    '${AppStyle.moneyFormat.format(budget['remain'] + (_getDayLeft(budget['endDay']) * (budget['remain']) / (1 + _getNumDay(budget['startDay']))))} ${budget['currency']} /day',
                                     maxLines: 1,
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
