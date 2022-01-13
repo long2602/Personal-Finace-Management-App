@@ -1,7 +1,5 @@
 # loda_app - Personal finace app
-![appstore](https://user-images.githubusercontent.com/68123521/149281676-87f4b278-a37f-4498-946e-cc26341e31c2.png)
-
-
+![logoRec](https://user-images.githubusercontent.com/68123521/149281762-f69e7b61-c208-412e-9baf-9702c0007354.png)
 
 
 ## Demo
